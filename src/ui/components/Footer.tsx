@@ -1,7 +1,4 @@
-import Link from "next/link";
-import Image from "next/image";
 import { LinkWithChannel } from "../atoms/LinkWithChannel";
-import { ChannelSelect } from "./ChannelSelect";
 
 export async function Footer() {
 	const currentYear = new Date().getFullYear();

@@ -1,11 +1,4 @@
 import { notFound, redirect } from "next/navigation";
-import {
-  OrderDirection,
-  ProductOrderField,
-  SearchProductsDocument,
-} from "@/gql/graphql";
-import { executeGraphQL } from "@/lib/graphql";
-import { Pagination } from "@/ui/components/Pagination";
 import { ProductList } from "@/ui/components/ProductList";
 
 export const metadata = {
@@ -14,16 +7,13 @@ export const metadata = {
 };
 
 export default async function Page({
-  searchParams,
   params,
 }: {
-  searchParams: Record<"query" | "cursor", string | string[] | undefined>;
-  params: { channel: string };
+  params: Promise<Record<"query" | "cursor", string | string[] | undefined>>;
 }) {
-  const cursor =
-    typeof searchParams.cursor === "string" ? searchParams.cursor : null;
-  const searchValue = searchParams.query;
-  const ProductsPerPage = 12;
+  const resolvedParams = await params;
+  const searchValue = resolvedParams.query;
+  console.log("****** searchValue", searchValue);
 
   const API_URL = "http://localhost:1337/api/posts?populate=*";
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN; // Replace with your actual API token

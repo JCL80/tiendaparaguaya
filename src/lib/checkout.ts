@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 
 // __mocks__/checkout.ts
 export const getIdFromCookies = (channel: string): string | null => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link";
 
 export const metadata = {
@@ -6,11 +7,6 @@ export const metadata = {
 };
 
 export default async function Page({
-  searchParams,
-  params,
-}: {
-  searchParams: Record<"query" | "cursor", string | string[] | undefined>;
-  params: { channel: string };
 }) {
   const API_URL = "http://localhost:1337/api/categories?populate=subcategories";
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN; // Replace with your actual API token
@@ -32,7 +28,7 @@ export default async function Page({
     <section className="mx-auto max-w-7xl p-8 pb-16">
       <h1 className="text-2xl font-bold mb-4">Navega nuestras categorías y subcategorías</h1>
       <div className="space-y-8">
-        {categories.map((category: any) => (
+        {categories && categories.map((category: any) => (
           <div key={category.id} className="border p-4 rounded-lg shadow">
             <h2 className="text-xl font-semibold">
               <Link href={`/categories/${category.attributes.slug}`}>

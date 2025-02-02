@@ -3,7 +3,7 @@ import { ProductList } from "@/ui/components/ProductList";
 export default async function CategoryPage({
   params,
 }: {
-  params: { categorySlug: string; subcategorySlug: string };
+  params: Promise<{ categorySlug: string; subcategorySlug: string }>;
 }) {
   const { subcategorySlug } = await params;
   const API_URL = `http://localhost:1337/api/posts?filters[category][slug][$eq]=${subcategorySlug}`;

@@ -1,5 +1,4 @@
 import { ProductList } from "@/ui/components/ProductList";
-import Image from "next/image";
 
 export const metadata = {
   title: "Tienda Paraguaya - Te traemos los mejores productos",
