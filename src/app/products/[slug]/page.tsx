@@ -1,17 +1,33 @@
 import { formatMoneyRange } from "@/lib/utils";
 import xss from "xss";
 import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
+import { Heart, Info } from "lucide-react";
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ slug: string; channel: string }>;
 }) {
-  const { slug } = await params; 
-  const BASE_URL = "http://localhost:1337";
-  const API_URL = `http://localhost:1337/api/posts?populate=*&filters[slug][$eq]=${slug}`;
+  const isWishlisted = true;
+  const isModalOpen = true;
+  const { slug } = await params;
+  const API_URL = `${process.env.STRAPI_URL}/api/posts?populate=*&filters[slug][$eq]=${slug}`;
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN; // Ensure the API token is set in your .env file
   let product = null;
+
+  const handleWishlist = async () => {
+    // const url = isWishlisted ? "/api/wishlist/remove" : "/api/wishlist/add";
+    // const method = "POST";
+    // await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+    //   method,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${userToken}`,
+    //   },
+    //   body: JSON.stringify({ productId: product.id }),
+    // });
+    // setIsWishlisted(!isWishlisted);
+  };
 
   try {
     // Fetch the specific product using the slug
@@ -46,11 +62,11 @@ export default async function Page({
   const productAttributes = product.attributes;
   const firstImage = productAttributes.images?.data?.[0];
   const firstImageUrl = formats?.medium?.url
-    ? `${BASE_URL}${formats.medium.url}`
+    ? formats.medium.url // ✅ Use absolute URL directly
     : formats?.small?.url
-    ? `${BASE_URL}${formats.small.url}`
+    ? formats.small.url // ✅ Use absolute URL directly
     : imageAttributes?.url
-    ? `${BASE_URL}${imageAttributes.url}`
+    ? imageAttributes.url // ✅ Use absolute URL directly
     : null;
 
   console.log("firstImage", firstImage);
@@ -91,7 +107,7 @@ export default async function Page({
                 stop: { amount: productAttributes.price, currency: "PYG" },
               })}
             </p>
-            <div className="text-green-600 text-sm">In Stock</div>
+            <div className="text-green-600 text-sm">En Stock</div>
             <div className="mt-8 space-y-6 text-sm text-neutral-500">
               {sanitizedDescription && (
                 <div
@@ -99,9 +115,79 @@ export default async function Page({
                 />
               )}
             </div>
+            <div className="mt-8 text-gray-600 text-sm flex items-center gap-2">
+              <Info className="w-4 h-4" />
+              <button
+                type="button"
+                // onClick={toggleModal}
+                className="underline hover:text-gray-800"
+              >
+                ¿Qué es una lista de deseos?
+              </button>
+            </div>
+            <button
+              // onClick={handleWishlist}
+              className={`mt-4 flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg 
+              ${
+                isWishlisted
+                  ? "bg-white-500 text-green-800 border border-green-300"
+                  : "bg-gray-100 text-gray-700"
+              } 
+              hover:${isWishlisted ? "bg-red-600/20" : "bg-gray-200"} 
+              transition-all duration-200 ease-in-out`}
+            >
+              <Heart
+                className={`mr-2 ${
+                  isWishlisted ? "fill-current text-white" : "text-gray-700"
+                }`}
+                style={{ color: isWishlisted ? "#10B981" : "" }} // Green heart color when wishlisted
+              />
+              {isWishlisted
+                ? "En tu lista de deseos"
+                : "Agregar a la lista de deseos"}
+            </button>
           </div>
         </div>
       </form>
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+            <h2 className="text-lg font-medium mb-4">
+              ¿Qué es una lista de deseos?
+            </h2>
+            <p className="text-sm text-gray-600">
+              Una lista de deseos es una forma de guardar tus productos
+              favoritos para comprarlos más tarde. Puedes agregar cualquier
+              producto a tu lista de deseos y regresar a ellos cuando estés
+              listo para completar tu compra. ¡Es una herramienta útil para
+              planificar tus compras!
+            </p>
+            <p className="text-sm text-gray-600 mt-4">
+              Además, podemos ayudarte a encontrar productos similares a los que
+              has agregado a tu lista de deseos. ¿Te gustaría explorar estas
+              recomendaciones personalizadas?
+            </p>
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                // onClick={toggleModal}
+                className="px-4 py-2 text-sm font-medium bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all duration-200"
+              >
+                Cerrar
+              </button>
+              <button
+                // onClick={() => {
+                //   toggleModal();
+                //   // Logic for navigating to recommendations or triggering API here
+                // }}
+                className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200"
+              >
+                Explorar recomendaciones
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -44,8 +44,6 @@ type Props = { product: ProductListItemFragment } & {
 };
 
 export function ProductElement({ product, loading, priority }: Props) {
-  const BASE_URL = "http://localhost:1337";
-
   // Access the product attributes
   const productAttributes = product.attributes;
 
@@ -56,12 +54,15 @@ export function ProductElement({ product, loading, priority }: Props) {
 
   // Determine the image URL based on available formats
   const imageUrl = formats?.medium?.url
-    ? `${BASE_URL}${formats.medium.url}`
-    : formats?.small?.url
-    ? `${BASE_URL}${formats.small.url}`
-    : imageAttributes?.url
-    ? `${BASE_URL}${imageAttributes.url}`
-    : null;
+  ? formats.medium.url // ✅ Use absolute URL directly
+  : formats?.small?.url
+  ? formats.small.url // ✅ Use absolute URL directly
+  : imageAttributes?.url
+  ? imageAttributes.url // ✅ Use absolute URL directly
+  : null;
+
+    console.log("imageUrl", imageUrl)
+    console.log("formats" , formats)
 
   return (
     <li data-testid="ProductElement">

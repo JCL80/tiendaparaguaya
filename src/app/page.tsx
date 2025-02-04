@@ -7,7 +7,9 @@ export const metadata = {
 
 export default async function Home() {
 
-  const API_URL = "http://localhost:1337/api/posts?populate=*";
+  const API_URL = process.env.STRAPI_URL + "/api/posts?populate=*";
+  console.log("API_URL", API_URL)
+  // const API_URL = "http://localhost:1337/api/posts?populate=*";
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN // Replace with your actual API token
   let products = []
 
@@ -19,6 +21,7 @@ export default async function Home() {
       },
     });
     const json = await res.json();
+    console.log("json", json)
     products = json.data
   
   }catch(err){
