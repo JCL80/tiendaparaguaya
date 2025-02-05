@@ -15,19 +15,19 @@ export default async function Page({
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN; // Ensure the API token is set in your .env file
   let product = null;
 
-  const handleWishlist = async () => {
-    // const url = isWishlisted ? "/api/wishlist/remove" : "/api/wishlist/add";
-    // const method = "POST";
-    // await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
-    //   method,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${userToken}`,
-    //   },
-    //   body: JSON.stringify({ productId: product.id }),
-    // });
-    // setIsWishlisted(!isWishlisted);
-  };
+  // const handleWishlist = async () => {
+  //   // const url = isWishlisted ? "/api/wishlist/remove" : "/api/wishlist/add";
+  //   // const method = "POST";
+  //   // await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+  //   //   method,
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //     Authorization: `Bearer ${userToken}`,
+  //   //   },
+  //   //   body: JSON.stringify({ productId: product.id }),
+  //   // });
+  //   // setIsWishlisted(!isWishlisted);
+  // };
 
   try {
     // Fetch the specific product using the slug

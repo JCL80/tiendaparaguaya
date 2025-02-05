@@ -1,9 +1,17 @@
 import { NavLink } from "./NavLink";
 
+interface Category {
+  id: number;
+  attributes: {
+    slug: string;
+    name: string;
+  };
+}
+
 export const NavLinks = async () => {
   const API_URL = process.env.STRAPI_URL + "/api/categories"; // Ensure this matches your Strapi API
-  const API_TOKEN = process.env.STRAPI_BACK_TOKEN
-  let categories = [];
+  const API_TOKEN = process.env.STRAPI_BACK_TOKEN;
+  let categories: { id: number; slug: string; name: string }[] = [];
 
   try {
     const res = await fetch(API_URL, {
@@ -14,7 +22,7 @@ export const NavLinks = async () => {
     if (!res.ok) throw new Error("Failed to fetch categories");
 
     const json = await res.json();
-    categories = json.data.map((category) => ({
+    categories = json.data.map((category: Category) => ({
       id: category.id,
       slug: category.attributes.slug,
       name: category.attributes.name,
