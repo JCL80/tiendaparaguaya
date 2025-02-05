@@ -19,7 +19,6 @@ export default async function Home() {
       },
     });
     const json = await res.json();
-    console.log("json", json)
     products = json.data
   
   }catch(err){
