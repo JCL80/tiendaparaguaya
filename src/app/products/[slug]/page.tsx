@@ -2,6 +2,7 @@ import { formatMoneyRange } from "@/lib/utils";
 import xss from "xss";
 import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
 import { Heart, Info } from "lucide-react";
+import SimilarProducts from "../components/SimilarProducts";
 
 export default async function Page({
   params,
@@ -14,20 +15,7 @@ export default async function Page({
   const API_URL = `${process.env.STRAPI_URL}/api/posts?populate=*&filters[slug][$eq]=${slug}`;
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN; // Ensure the API token is set in your .env file
   let product = null;
-
-  // const handleWishlist = async () => {
-  //   // const url = isWishlisted ? "/api/wishlist/remove" : "/api/wishlist/add";
-  //   // const method = "POST";
-  //   // await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
-  //   //   method,
-  //   //   headers: {
-  //   //     "Content-Type": "application/json",
-  //   //     Authorization: `Bearer ${userToken}`,
-  //   //   },
-  //   //   body: JSON.stringify({ productId: product.id }),
-  //   // });
-  //   // setIsWishlisted(!isWishlisted);
-  // };
+  let similarProducts = []
 
   try {
     // Fetch the specific product using the slug
@@ -40,6 +28,24 @@ export default async function Page({
     if (res.ok) {
       const data = await res.json();
       product = data.data?.[0]; // Assuming the product is the first item in the response
+      
+      if(product){
+        console.log("product id" , product.id)
+        const similarRes = await fetch(
+          `${process.env.STRAPI_URL}/api/similar-products?productId=${product.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${API_TOKEN}`,
+            },
+          }
+        );
+        console.log("similar Res" , similarRes)
+        if (similarRes.ok) {
+          similarProducts = await similarRes.json();
+        }
+        console.log("similarProducts" , similarProducts)
+      }
+
     } else {
       console.error(
         `Error fetching product: ${res.status} - ${res.statusText}`
@@ -69,7 +75,7 @@ export default async function Page({
     ? imageAttributes.url // ✅ Use absolute URL directly
     : null;
 
-  console.log("firstImage", firstImage);
+  // console.log("firstImage", firstImage);
 
   return (
     <section className="mx-auto grid max-w-7xl p-8">
@@ -149,8 +155,15 @@ export default async function Page({
           </div>
         </div>
       </form>
-      {/* Modal */}
-      {isModalOpen && (
+   
+      <SimilarProducts products={similarProducts} />
+    </section>
+  );
+}
+
+
+   {/* Modal */}
+      {/* {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
             <h2 className="text-lg font-medium mb-4">
@@ -187,7 +200,19 @@ export default async function Page({
             </div>
           </div>
         </div>
-      )}
-    </section>
-  );
-}
+      )} */}
+
+      
+  // const handleWishlist = async () => {
+  //   // const url = isWishlisted ? "/api/wishlist/remove" : "/api/wishlist/add";
+  //   // const method = "POST";
+  //   // await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+  //   //   method,
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //     Authorization: `Bearer ${userToken}`,
+  //   //   },
+  //   //   body: JSON.stringify({ productId: product.id }),
+  //   // });
+  //   // setIsWishlisted(!isWishlisted);
+  // };
