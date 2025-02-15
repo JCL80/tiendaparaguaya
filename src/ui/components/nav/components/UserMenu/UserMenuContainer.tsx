@@ -24,7 +24,7 @@ export async function UserMenuContainer() {
 
       if (res.ok) {
         user = await res.json();
-        console.log('Fetched user:', user);
+        // console.log('Fetched user:', user);
       } else {
         console.error('Failed to fetch user details');
       }

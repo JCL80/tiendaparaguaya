@@ -55,7 +55,7 @@ export function UserMenu({ user }: Props) {
             <Menu.Item>
               {({ active }) => (
                 <LinkWithChannel
-                  href="/listadedeseos"
+                  href={`/listadedeseos/${user.id}`}
                   className={clsx(
                     active && 'bg-neutral-100',
                     'block px-4 py-2 text-sm font-medium text-neutral-500 hover:text-neutral-700'

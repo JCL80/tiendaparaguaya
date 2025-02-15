@@ -61,8 +61,8 @@ export function ProductElement({ product, loading, priority }: Props) {
   ? imageAttributes.url // ✅ Use absolute URL directly
   : null;
 
-    console.log("imageUrl", imageUrl)
-    console.log("formats" , formats)
+    // console.log("imageUrl", imageUrl)
+    // console.log("formats" , formats)
 
   return (
     <li data-testid="ProductElement">

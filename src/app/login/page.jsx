@@ -119,17 +119,19 @@ export default function AuthForm() {
         {error && <p className="mt-4 text-red-500">{error}</p>}
       </form>
 	  <hr/>
-	  <div className="p-8 flex justify-center">
+	  
+    </div>
+  );
+}
+
+{/* <div className="p-8 flex justify-center">
         <button
           onClick={() => {
             window.location.href = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/connect/google`;
           }}
           className="flex items-center justify-center rounded px-4 py-2 border shadow-lg hover:bg-gray-100"
         >
-          <FcGoogle className="mr-2 h-5 w-5" /> {/* Add Google Icon */}
+          <FcGoogle className="mr-2 h-5 w-5" /> 
           Inicia sesión con Google
         </button>
-      </div>
-    </div>
-  );
-}
+      </div> */}

@@ -3,6 +3,7 @@ import xss from "xss";
 import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
 import { Heart, Info } from "lucide-react";
 import SimilarProducts from "../components/SimilarProducts";
+import WishlistButton from "../components/WishList";
 
 export default async function Page({
   params,
@@ -10,7 +11,7 @@ export default async function Page({
   params: Promise<{ slug: string; channel: string }>;
 }) {
   const isWishlisted = true;
-  const isModalOpen = true;
+  // const isModalOpen = true;
   const { slug } = await params;
   const API_URL = `${process.env.STRAPI_URL}/api/posts?populate=*&filters[slug][$eq]=${slug}`;
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN; // Ensure the API token is set in your .env file
@@ -39,11 +40,11 @@ export default async function Page({
             },
           }
         );
-        console.log("similar Res" , similarRes)
+        // console.log("similar Res" , similarRes)
         if (similarRes.ok) {
           similarProducts = await similarRes.json();
         }
-        console.log("similarProducts" , similarProducts)
+        // console.log("similarProducts" , similarProducts)
       }
 
     } else {
@@ -87,7 +88,7 @@ export default async function Page({
           }),
         }}
       />
-      <form className="grid gap-2 sm:grid-cols-2 lg:grid-cols-8">
+      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-8">
         {/* Image Section */}
         <div className="md:col-span-1 lg:col-span-5">
           {firstImage && firstImageUrl && (
@@ -121,40 +122,12 @@ export default async function Page({
                 />
               )}
             </div>
-            <div className="mt-8 text-gray-600 text-sm flex items-center gap-2">
-              <Info className="w-4 h-4" />
-              <button
-                type="button"
-                // onClick={toggleModal}
-                className="underline hover:text-gray-800"
-              >
-                ¿Qué es una lista de deseos?
-              </button>
-            </div>
-            <button
-              // onClick={handleWishlist}
-              className={`mt-4 flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg 
-              ${
-                isWishlisted
-                  ? "bg-white-500 text-green-800 border border-green-300"
-                  : "bg-gray-100 text-gray-700"
-              } 
-              hover:${isWishlisted ? "bg-red-600/20" : "bg-gray-200"} 
-              transition-all duration-200 ease-in-out`}
-            >
-              <Heart
-                className={`mr-2 ${
-                  isWishlisted ? "fill-current text-white" : "text-gray-700"
-                }`}
-                style={{ color: isWishlisted ? "#10B981" : "" }} // Green heart color when wishlisted
-              />
-              {isWishlisted
-                ? "En tu lista de deseos"
-                : "Agregar a la lista de deseos"}
-            </button>
+           
+            <WishlistButton productId={product.id} isWishlisted={false} />
+
           </div>
         </div>
-      </form>
+      </div>
    
       <SimilarProducts products={similarProducts} />
     </section>
