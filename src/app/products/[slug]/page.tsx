@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { formatMoneyRange } from "@/lib/utils";
 import xss from "xss";
 import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
