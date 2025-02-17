@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
     console.log("user", user);
 
     const API_TOKEN = process.env.STRAPI_BACK_TOKEN;
+    console.log("API_TOKEN for wishlist", API_TOKEN);
 
     // Check if the user already has a wishlist
     const wishlistRes = await fetch(
