@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProductList } from "@/ui/components/ProductList";
 
 export default async function Page({
@@ -19,6 +20,7 @@ export default async function Page({
 
     if (res.ok) {
       const data = await res.json();
+      console.log("data", data.data[0]?.attributes);
       wishlist = data.data[0]?.attributes;
     }
   } catch (error) {

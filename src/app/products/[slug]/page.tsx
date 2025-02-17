@@ -2,7 +2,6 @@
 import { formatMoneyRange } from "@/lib/utils";
 import xss from "xss";
 import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
-import { Heart, Info } from "lucide-react";
 import SimilarProducts from "../components/SimilarProducts";
 import WishlistButton from "../components/WishList";
 

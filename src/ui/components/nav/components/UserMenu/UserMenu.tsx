@@ -13,6 +13,7 @@ type Props = {
     lastName: string;
     email: string;
     avatar: { url: string };
+    id: string;
   };
 };
 
