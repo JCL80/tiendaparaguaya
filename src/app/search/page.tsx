@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { ProductList } from "@/ui/components/ProductList";
+import RecommendedProducts from "./components/RecommendedProducts";
 
 export const metadata = {
   title: "Búsqueda · Tienda Paraguaya",
@@ -7,15 +8,18 @@ export const metadata = {
 };
 
 export default async function Page({
-  params,
+  searchParams,
 }: {
-  params: Promise<Record<"query" | "cursor", string | string[] | undefined>>;
+  searchParams: Promise<{ query?: string | string[]; cursor?: string | string[] }>;
 }) {
-  const resolvedParams = await params;
-  const searchValue = resolvedParams.query;
+  // Await the searchParams promise before using its properties
+  const resolvedSearchParams = await searchParams;
+  console.log("****** resolvedSearchParams", resolvedSearchParams);
+
+  const searchValue = resolvedSearchParams.query;
   console.log("****** searchValue", searchValue);
 
-  const API_URL = "http://localhost:1337/api/posts?populate=*";
+  const API_URL = process.env.STRAPI_URL + "/api/posts?populate=*";
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN; // Replace with your actual API token
 
   if (!searchValue) {
@@ -40,8 +44,6 @@ export default async function Page({
   });
   const json = await res.json();
   const products = json.data;
-
-  // console.log("****** products", products);
 
   if (!products) {
     notFound();
@@ -68,6 +70,7 @@ export default async function Page({
           No encontramos nada :(
         </h1>
       )}
+      <RecommendedProducts />
     </section>
   );
 }
