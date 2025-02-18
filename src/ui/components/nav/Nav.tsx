@@ -19,11 +19,11 @@ export const Nav = () => {
 					<UserMenuContainer />
 				</Suspense>
 			</div>
-			<div className="flex items-center">
+			{/* <div className="flex items-center">
 				<Suspense fallback={<div className="w-6" />}>
 					<CartNavItem  />
 				</Suspense>
-			</div>
+			</div> */}
 			<Suspense>
 				<MobileMenu>
 					<SearchBar />

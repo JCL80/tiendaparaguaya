@@ -10,7 +10,7 @@ export const CloseButton = (props: Props) => {
 	return (
 		<button
 			className={clsx(
-				"top-0 ml-auto flex h-8 w-8 flex-col items-center justify-center gap-1.5 self-end self-center md:hidden",
+				"top-0 ml-auto flex h-8 w-8 flex-col items-center justify-center gap-1.5 self-end self-center ",
 			)}
 			aria-controls={props["aria-controls"]}
 			aria-expanded={true}

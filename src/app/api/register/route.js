@@ -4,13 +4,16 @@ import axios from 'axios';
 export async function POST(request) {
   try {
     console.log('Received registration request');
-    const { email, password } = await request.json();
+    const { fullName, email, phone, password } = await request.json();
+    console.log('Registration request:', { fullName, email, phone, password });
 
     // Send registration request to Strapi
     const strapiRes = await axios.post(`${process.env.STRAPI_URL}/api/auth/local/register`, {
       email,
       username: email, // Strapi requires username; use email for simplicity
       password,
+      fullName,
+      phone
     });
 
     const { jwt, user } = strapiRes.data;

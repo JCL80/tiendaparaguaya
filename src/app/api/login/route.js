@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export async function POST(request) {
   try {
-    console.log("Login request being called:");
+    console.log("**** Login request being called: ****");
     const { email, password } = await request.json();
 
     // Send login request to Strapi

@@ -33,17 +33,17 @@ export const NavLinks = async () => {
 
   return (
     <>
-      <NavLink href="/visualizer">Todo</NavLink>
+      {/* <NavLink href="/visualizer">Todo</NavLink> */}
 
       {/* Render fetched categories */}
-      {categories.map((category) => (
+      {categories.slice(0, 4).map((category) => (
         <NavLink key={category.id} href={`/categories/${category.slug}`}>
           {category.name}
         </NavLink>
       ))}
 
       {/* Keep the "Sobre Nosotros" page */}
-      <NavLink href="/pages/sobre-nosotros">Sobre nosotros</NavLink>
+      {/* <NavLink href="/pages/sobre-nosotros">Sobre nosotros</NavLink> */}
     </>
   );
 };
