@@ -19,7 +19,9 @@ export default async function Page({
   const searchValue = resolvedSearchParams.query;
   console.log("****** searchValue", searchValue);
 
-  const API_URL = process.env.STRAPI_URL + "/api/posts?populate=*";
+  const API_URL = `${process.env.STRAPI_URL}/api/posts?populate=*&filters[title][$containsi]=${encodeURIComponent(
+    searchValue as string
+  )}`;
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN; // Replace with your actual API token
 
   if (!searchValue) {
