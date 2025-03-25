@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "image-zoom-kit/dist/styles.css";
 import { Header } from "@/ui/components/Header";
 import { Footer } from "@/ui/components/Footer";
 import Script from "next/script";

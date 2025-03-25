@@ -4,6 +4,9 @@ import xss from "xss";
 import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
 import SimilarProducts from "../components/SimilarProducts";
 import WishlistButton from "../components/WishList";
+import { SimpleZoomer } from "image-zoom-kit";
+import Image from "next/image";
+import ImageVisor from "../components/ImageVisor";
 
 export default async function Page({
   params,
@@ -16,7 +19,7 @@ export default async function Page({
   const API_URL = `${process.env.STRAPI_URL}/api/posts?populate=*&filters[slug][$eq]=${slug}`;
   const API_TOKEN = process.env.STRAPI_BACK_TOKEN; // Ensure the API token is set in your .env file
   let product = null;
-  let similarProducts = []
+  let similarProducts = [];
 
   try {
     // Fetch the specific product using the slug
@@ -29,9 +32,9 @@ export default async function Page({
     if (res.ok) {
       const data = await res.json();
       product = data.data?.[0]; // Assuming the product is the first item in the response
-      
-      if(product){
-        console.log("product id" , product.id)
+
+      if (product) {
+        console.log("product id", product.id);
         const similarRes = await fetch(
           `${process.env.STRAPI_URL}/api/similar-products?productId=${product.id}`,
           {
@@ -46,7 +49,6 @@ export default async function Page({
         }
         // console.log("similarProducts" , similarProducts)
       }
-
     } else {
       console.error(
         `Error fetching product: ${res.status} - ${res.statusText}`
@@ -91,7 +93,7 @@ export default async function Page({
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-8">
         {/* Image Section */}
         <div className="md:col-span-1 lg:col-span-5">
-          {firstImage && firstImageUrl && (
+          {/* {firstImage && firstImageUrl && (
             <ProductImageWrapper
               priority={true}
               alt={firstImage.alternativeText ?? ""}
@@ -99,7 +101,14 @@ export default async function Page({
               height={1024}
               src={firstImageUrl}
             />
-          )}
+          )} */}
+          {/* <SimpleZoomer zoomLevel={2} imgSrc={firstImageUrl} width={1024} height={1024} /> */}
+          <ImageVisor
+            src={firstImageUrl}
+            alt="Product image"
+            width={1024}
+            height={1024}
+          />
         </div>
 
         {/* Product Details Section */}
@@ -122,21 +131,22 @@ export default async function Page({
                 />
               )}
             </div>
-           
-            <WishlistButton productId={product.id} isWishlisted={false} />
 
+            <WishlistButton productId={product.id} isWishlisted={false} />
           </div>
         </div>
       </div>
-   
+
       <SimilarProducts products={similarProducts} />
     </section>
   );
 }
 
-
-   {/* Modal */}
-      {/* {isModalOpen && (
+{
+  /* Modal */
+}
+{
+  /* {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
             <h2 className="text-lg font-medium mb-4">
@@ -173,19 +183,19 @@ export default async function Page({
             </div>
           </div>
         </div>
-      )} */}
+      )} */
+}
 
-      
-  // const handleWishlist = async () => {
-  //   // const url = isWishlisted ? "/api/wishlist/remove" : "/api/wishlist/add";
-  //   // const method = "POST";
-  //   // await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
-  //   //   method,
-  //   //   headers: {
-  //   //     "Content-Type": "application/json",
-  //   //     Authorization: `Bearer ${userToken}`,
-  //   //   },
-  //   //   body: JSON.stringify({ productId: product.id }),
-  //   // });
-  //   // setIsWishlisted(!isWishlisted);
-  // };
+// const handleWishlist = async () => {
+//   // const url = isWishlisted ? "/api/wishlist/remove" : "/api/wishlist/add";
+//   // const method = "POST";
+//   // await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+//   //   method,
+//   //   headers: {
+//   //     "Content-Type": "application/json",
+//   //     Authorization: `Bearer ${userToken}`,
+//   //   },
+//   //   body: JSON.stringify({ productId: product.id }),
+//   // });
+//   // setIsWishlisted(!isWishlisted);
+// };
